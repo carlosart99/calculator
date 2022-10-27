@@ -1,0 +1,145 @@
+body{
+    background-color: beige;
+    font-family: 'Rubik', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.container{
+    width: 1200px;
+    max-width: 900px;
+}
+
+.calculator{
+    background-color: #E3F2FD;
+    border: 4px solid #82B1FF;
+    border-radius: 10px;
+    margin: 100px;
+    padding:15px;
+}
+
+#screen{
+    margin: 10px;
+    box-shadow: 2.5px 2.5px #888888;
+    background-color: whitesmoke;
+    border-radius: 5px;
+    height: 300px;
+}
+
+#results{
+    border: 2px solid white;
+    background-color: whitesmoke;
+    border-radius: 3px;
+    margin-top: 10px;
+    height: 170px;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+#operations{
+    margin-bottom: 10px;
+    height: 70px;
+    display: flex;
+}
+
+#results-list{
+    list-style-type: none;
+    overflow: auto;
+    margin-left: 0;
+    margin-bottom: 0;
+    padding-left: 7px;
+}
+
+li{    
+    display: flex;
+    color: #01579B;
+    justify-content: space-between;
+    font-size: 22px;
+    padding-left: 2px;
+    padding-right: 9px;
+    font-size: 25px;
+    border-top: 0.5px solid white;
+}
+
+textarea{
+    height: 60px;
+    width: 100%;
+    resize: none;
+    font-size: 25px;
+    background-color: whitesmoke;
+    border-radius: 3px;
+    border: 0;
+    outline: none;
+    color: #01579B;
+    margin-left: 3px;
+}
+
+#keyboard{
+    margin: 10px;
+}
+
+.digits{    
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap:5px;
+} 
+
+.digits div{
+    display: flex;
+    justify-content: space-between;
+}
+
+.digits div button{
+    width: 48%;
+}
+
+#equal{
+    height: 212% ;
+}
+
+button{    
+    height: 40px;
+    border-radius: 5px;
+    background-color: #BBDEFB;
+    border: 2px solid #90CAF9;
+    font-size: 25px;
+    box-shadow: 2.5px 2.5px #888888;
+    color: #01579B;
+}
+
+button:hover{
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+#equal{
+    background-color: #66BB6A;
+    border: 3px solid #2E7D32;
+    color: #2E7D32;
+}
+
+#clear{
+    background-color: #FF8A65;
+    border: 3px solid #DD2C00;
+    color: #DD2C00;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  ::-webkit-scrollbar-thumb {
+    background: #90CAF9; 
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #90CAF9; 
+  }

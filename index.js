@@ -15,81 +15,58 @@ function operate(operator,a,b){
     else if (operator === '/'){return divide(a,b)}
 }
 
-function evaluateExp(exp){
-    let result;
-    if (exp.indexOf('/') != -1 || exp.indexOf('*') != -1){
-        expElements = exp.split(/[+-]/);
-        for(let i=0; i<expElements.length; i++){
-            if (expElements[i].includes('/') && expElements[i].includes('*')){
-                let operator = '*', remove = '/';
-                if (expElements[i].indexOf('/') < expElements[i].indexOf('*')){
-                    operator = '/';  
-                    remove ='*';                  
-                }
-                expElements = expElements[i].split(remove)
-                components = expElements[0].split(operator);
-                result = operate(operator,parseInt(components[0]),parseInt(components[1]));
-                exp = exp.replace(expElements[0],String(result));                
-                console.log(exp);
-            }
-            else if (expElements[i].includes('/') || expElements[i].includes('*')){
-                let operator;
-                if (expElements[i].includes('/')){operator='/'}
-                else {operator='*'};
-                components = expElements[i].split(operator);
-                result = operate(operator,parseInt(components[0]),parseInt(components[1]));
-                exp = exp.replace(expElements[i],String(result));
-                console.log(exp);
-            }                    
-        }
+function evaluateExp(digits,operators){
+  for(let i=0; i<operators.length; i++){
+    if (operators[i]==='*' || operators[i]==='/'){
+      digits[i] = operate(operators[i],digits[i],digits[i+1])      
+      digits.splice(i+1,1);
+      operators.splice(i,1);
+      i=-1;
     }
-    else if (exp.indexOf('+') != -1 || exp.indexOf('-') != -1){
-        if (exp.includes('+') && exp.includes('-')){
-            let operator = '+', remove = '-';
-            if (exp.indexOf('-') < exp.indexOf('+')){
-                operator = '-';  
-                remove ='+';
-            }
-            expElements = exp.split(remove)
-            components = expElements[0].split(operator);
-            result = operate(operator, parseInt(components[0]),parseInt(components[1]));
-            exp = exp.replace(expElements[0],String(result));                
-            console.log(exp);
-        }    
-        else if (exp.includes('-') || exp.includes('+')){
-            let operator;
-            if (exp.includes('-')){operator='-'}
-            else {operator='+'};
-            components = exp.split(operator);
-            result = operate(operator,parseInt(components[0]),parseInt(components[1]));
-            exp = exp.replace(exp,String(result));
-            console.log(exp);
-        } 
-    }
-    if (exp.match(/[+*/-]/)){
-        evaluateExp(exp);
-    }
-    else{
-        return exp;
-    }
-}
 
-console.log(evaluateExp("8+2-3+5*2/7"))
-
-const input = document.querySelector("input");
-const result = document.querySelector("#result");
-
-input.addEventListener("keyup", (event) => {
-  if (event.key === "Enter") {
-    expresion = input.value;
-    expresion=expresion.replace('=','');
-    expresion=expresion.replaceAll(' ','');
-    console.log(typeof expresion)
-    if (expresion.includes('+')){
-        expresion = expresion.split('+');
-        result.textContent = operate('+',expresion[0],expresion[1]);
-    }
-    input.value = "";
   }
-});
+
+  for(let i=0; i<operators.length; i++){
+    if (operators[i]==='+' || operators[i]==='-'){
+      digits[i] = operate(operators[i],digits[i],digits[i+1])      
+      digits.splice(i+1,1);
+      operators.splice(i,1);
+      i=-1;
+    }
+  }  
+
+  return digits;
+}
  
+let digits = [], operators = [], actDigit='';
+let digitOptions = ['0','1','2','3','4','5','6','7','8','9',',']
+let operatorOptions = ['+','-','*','/']
+
+const textArea = document.querySelector("textarea");
+const resultsList = document.querySelector("#results-list");
+
+document.addEventListener('click',function(e){
+  if(e.target && digitOptions.includes(e.target.id)){
+    actDigit+=e.target.id;
+    textArea.value += e.target.id;
+  }  
+  else if (e.target && operatorOptions.includes(e.target.id)){
+    textArea.value += " " + e.target.id + " ";
+    digits.push(parseInt(actDigit));
+    operators.push(e.target.id);    
+    actDigit='';
+  }
+  else if (e.target && e.target.id === 'equal'){
+    let resultElement = document.createElement('li'), result;
+    digits.push(parseInt(actDigit));
+    result = evaluateExp(digits,operators);
+    resultElement.innerHTML = `<span>${textArea.value}</span> = <span>${result}</span>`
+    resultsList.appendChild(resultElement);
+    textArea.value='';
+    digits = [], operators = [], actDigit='';    
+  }
+  else if (e.target && e.target.id === 'clear'){
+    textArea.value='';
+    digits = [], operators = [], actDigit='';    
+  }  
+})
